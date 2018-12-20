@@ -9,6 +9,10 @@ module.exports = {
         "ecmaVersion": 2017,
         "sourceType": "module"
     },
+    "globals": {
+        "__dirname": true,
+        "process": true
+    },
     "rules": {
         "indent": [
             "error",

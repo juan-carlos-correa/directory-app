@@ -12,7 +12,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "mongoose": "^5.4.0"
+    "mongoose": "^5.4.0",
+    "node-env-file": "^0.1.8"
   },
   "devDependencies": {
     "eslint": "^5.10.0"
