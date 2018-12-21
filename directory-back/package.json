@@ -7,11 +7,15 @@
     "lint": "./node_modules/.bin/eslint *.js",
     "start": "nodemon index"
   },
+  "_moduleAliases": {
+    "@db": "db"
+  },
   "author": "juan-correa",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
+    "module-alias": "^2.1.0",
     "mongoose": "^5.4.0",
     "node-env-file": "^0.1.8"
   },

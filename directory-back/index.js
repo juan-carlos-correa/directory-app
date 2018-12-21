@@ -1,6 +1,8 @@
+require('module-alias/register');
+
 const app = require('./app');
 const config = require('./config');
-const connect = require('./db');
+const connect = require('@db');
 
 const port = config.app.port;
 
