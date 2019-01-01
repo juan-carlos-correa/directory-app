@@ -63,7 +63,7 @@ UserSchema.path('email').validate(function (email) {
   if (!emailRegex.test(email)) {
     throw new Error(`El email ${email} no es válido`);
   }
-})
+});
 
 /**
  * Custom unique validator errors
@@ -87,7 +87,7 @@ UserSchema.pre('save', async function (next) {
   } catch (err) {
     next(err);
   }
-})
+});
 
 /**
  * Firstname uppercase
@@ -101,7 +101,7 @@ UserSchema.pre('save', function (next) {
 
   user.firstname = string.ucfirst(user.firstname);
   return next();
-})
+});
 
 /**
  * Lastname uppercase
@@ -115,7 +115,7 @@ UserSchema.pre('save', function (next) {
 
   user.lastname = string.ucfirst(user.lastname);
   return next();
-})
+});
 
 /**
  * Methods
@@ -133,7 +133,7 @@ UserSchema.methods.comparePassword = function (candidatePassword) {
       reject(error);
     }
   });
-}
+};
 
 UserSchema.methods.toggleActive = function () {
   return new Promise(async (resolve, reject) => {
@@ -145,6 +145,6 @@ UserSchema.methods.toggleActive = function () {
       reject(error);
     }
   });
-}
+};
 
 module.exports = mongoose.model('Users', UserSchema);

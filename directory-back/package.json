@@ -4,12 +4,13 @@
   "description": "Directory backend",
   "main": "index.js",
   "scripts": {
-    "lint": "./node_modules/.bin/eslint *.js",
+    "lint": "./node_modules/.bin/eslint .",
     "start": "nodemon index"
   },
   "_moduleAliases": {
     "@db": "db",
-    "@libs": "libs"
+    "@libs": "libs",
+    "@routes": "routes"
   },
   "author": "juan-correa",
   "license": "MIT",

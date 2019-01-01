@@ -1,7 +1,7 @@
 const db = require('./mongo');
 
 async function connect (config = {}, params = {}) {
-  params.useNewUrlParser = true
+  params.useNewUrlParser = true;
 
   let uri = `mongodb://${config.host}:${config.port}/${config.database}`;
 
@@ -16,4 +16,4 @@ async function connect (config = {}, params = {}) {
   }
 }
 
-module.exports = connect
+module.exports = connect;
