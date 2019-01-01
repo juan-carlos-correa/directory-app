@@ -10,7 +10,9 @@
   "_moduleAliases": {
     "@db": "db",
     "@libs": "libs",
-    "@routes": "routes"
+    "@routes": "routes",
+    "@controllers": "controllers",
+    "@models": "models"
   },
   "author": "juan-correa",
   "license": "MIT",

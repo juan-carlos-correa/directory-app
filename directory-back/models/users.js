@@ -45,9 +45,9 @@ const UserSchema = Schema({
     type: Boolean,
     default: true
   },
-  store: {
+  company: {
     type: Schema.ObjectId,
-    ref: 'stores'
+    ref: 'companies'
   }
 },
 {

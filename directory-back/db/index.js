@@ -2,6 +2,7 @@ const db = require('./mongo');
 
 async function connect (config = {}, params = {}) {
   params.useNewUrlParser = true;
+  params.useCreateIndex = true;
 
   let uri = `mongodb://${config.host}:${config.port}/${config.database}`;
 
