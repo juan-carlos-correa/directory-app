@@ -12,7 +12,8 @@
     "@libs": "libs",
     "@routes": "routes",
     "@controllers": "controllers",
-    "@models": "models"
+    "@models": "models",
+    "@middlewares": "middlewares"
   },
   "author": "juan-correa",
   "license": "MIT",
