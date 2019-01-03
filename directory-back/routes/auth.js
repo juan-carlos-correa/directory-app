@@ -5,7 +5,7 @@ const AuthController = require('@controllers/AuthController');
 
 const api = express.Router();
 
-api.post('/auth/login', (req, res) => res.status(200).send({ msg: 'test' }));
-api.post('/auth/sigin', authMiddleware.validateSignin, AuthController.sigin);
+api.post('/auth/login', authMiddleware.validateLoginRequest, AuthController.login);
+api.post('/auth/sigin', authMiddleware.validateSigninRequest, AuthController.sigin);
 
 module.exports = api;

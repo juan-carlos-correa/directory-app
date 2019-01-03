@@ -1,7 +1,7 @@
 const User = require('@models/users');
 
 class AuthController {
-  static async sigin (req, res) {
+  static async sigin (req, res, next) {
     try {
       const {
         email,
@@ -20,7 +20,35 @@ class AuthController {
       const userStored = await user.save();
       return res.status(201).send({ userStored });
     } catch (e) {
-      return res.status(500).send({ errorMsg: e.message });
+      next(e);
+    }
+  }
+
+  static async login (req, res, next) {
+    try {
+      const { email, password} = req.body;
+
+      const user = await User.findOne({ email }).select('+password');
+
+      if (!user) {
+        const err = new Error('login');
+        err.errors = { login: 'El usuario no fue encontrado' };
+        err.httpStatus = 400;
+        return next(err);
+      }
+
+      const isPasswordCorrect = await user.comparePassword(password);
+
+      if (!isPasswordCorrect) {
+        const err = new Error('login');
+        err.errors = { login: 'La contraseña es inválida' };
+        err.httpStatus = 400;
+        return next(err);
+      }
+
+      return res.status(200).send({ user });
+    } catch (e) {
+      next(e);
     }
   }
 }
