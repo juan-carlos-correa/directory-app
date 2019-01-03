@@ -4,7 +4,8 @@ env(`${__dirname}/.env`);
 
 const config = {
   app: {
-    port: process.env.PORT_SERVER
+    port: process.env.PORT_SERVER,
+    secret: process.env.JWT_SECRET,
   },
   db: {
     host: process.env.DB_HOST,

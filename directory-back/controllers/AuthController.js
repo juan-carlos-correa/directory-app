@@ -26,12 +26,12 @@ class AuthController {
 
   static async login (req, res, next) {
     try {
-      const { email, password} = req.body;
+      const { email, password } = req.body;
 
       const user = await User.findOne({ email }).select('+password');
 
       if (!user) {
-        const err = new Error('login');
+        const err = new Error('email');
         err.errors = { login: 'El usuario no fue encontrado' };
         err.httpStatus = 400;
         return next(err);
@@ -40,13 +40,15 @@ class AuthController {
       const isPasswordCorrect = await user.comparePassword(password);
 
       if (!isPasswordCorrect) {
-        const err = new Error('login');
+        const err = new Error('password');
         err.errors = { login: 'La contraseña es inválida' };
         err.httpStatus = 400;
         return next(err);
       }
 
-      return res.status(200).send({ user });
+      const token = await user.getToken();
+
+      return res.status(200).send({ token });
     } catch (e) {
       next(e);
     }

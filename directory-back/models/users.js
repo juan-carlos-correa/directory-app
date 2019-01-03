@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 const bcrypt = require('@libs/crypt');
 const string = require('@libs/string');
+const jwt = require('@libs/jwt');
+const config = require('@root/config');
 
 const Schema = mongoose.Schema;
 
@@ -143,6 +145,26 @@ UserSchema.methods.toggleActive = function () {
       resolve(this);
     } catch (error) {
       reject(error);
+    }
+  });
+};
+
+UserSchema.methods.getToken = function () {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const payload = {
+        email: this.email,
+        firstname: this.firstname,
+        lastname: this.lastname,
+        isActive: this.isAdmin,
+      };
+
+      const options = { expiresIn: '30 days' };
+
+      const token = await jwt.encode(payload, config.app.secret, options);
+      return resolve(token);
+    } catch (e) {
+      reject(e);
     }
   });
 };
