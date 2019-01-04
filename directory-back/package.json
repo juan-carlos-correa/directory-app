@@ -26,7 +26,8 @@
     "module-alias": "^2.1.0",
     "mongoose": "^5.4.0",
     "mongoose-unique-validator": "^2.0.2",
-    "node-env-file": "^0.1.8"
+    "node-env-file": "^0.1.8",
+    "token-extractor": "^0.1.6"
   },
   "devDependencies": {
     "eslint": "^5.10.0",

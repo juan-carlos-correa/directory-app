@@ -1,3 +1,6 @@
+const jwt = require('@libs/jwt');
+const config = require('@root/config');
+
 const validateSigninRequest = (req, res, next) => {
   const {
     email,
@@ -96,7 +99,23 @@ const validateEmail = (email) => {
   return re.test(email);
 };
 
+const isAuth = async (req, res, next) => {
+  try {
+    const token = await jwt.extractToken(req);
+    const { secret } = config.app;
+    const options = { expiresIn: '30 days' };
+    const decoded = await jwt.decode(token, secret, options);
+
+    res.locals.auth = decoded;
+    next();
+  } catch (e) {
+    e.httpStatus = 401;
+    next(e);
+  }
+};
+
 module.exports = {
   validateSigninRequest,
   validateLoginRequest,
+  isAuth,
 };
