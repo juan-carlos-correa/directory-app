@@ -153,10 +153,10 @@ UserSchema.methods.getToken = function () {
   return new Promise(async (resolve, reject) => {
     try {
       const payload = {
+        id: this._id,
         email: this.email,
         firstname: this.firstname,
         lastname: this.lastname,
-        isActive: this.isAdmin,
       };
 
       const options = { expiresIn: '30 days' };

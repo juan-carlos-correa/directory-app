@@ -1,7 +1,8 @@
 const express = require('express');
+const CompanyController = require('@controllers/CompanyController');
 
 const api = express.Router();
 
-api.post('/companies', (req, res) => res.status(200).send({ test: 'test' }));
+api.post('/companies', CompanyController.store);
 
 module.exports = api;

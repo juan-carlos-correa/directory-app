@@ -13,6 +13,10 @@ const CompaniesSchema = Schema({
     minlength: [3, 'El nombre debe contener mínimo 3 caracteres'],
     required: [true, 'El nombre es obligatorio']
   },
+  createdBy: {
+    type: Schema.ObjectId,
+    ref: 'users',
+  },
 }, {
   timestamps: true,
 });
@@ -36,4 +40,4 @@ CompaniesSchema.pre('save', function (next) {
   return next();
 });
 
-module.exports = mongoose.model('Companies', CompaniesSchema);
+module.exports = mongoose.model('companies', CompaniesSchema);

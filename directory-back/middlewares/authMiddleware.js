@@ -105,8 +105,8 @@ const isAuth = async (req, res, next) => {
     const { secret } = config.app;
     const options = { expiresIn: '30 days' };
     const decoded = await jwt.decode(token, secret, options);
+    req.auth = decoded;
 
-    res.locals.auth = decoded;
     next();
   } catch (e) {
     e.httpStatus = 401;
