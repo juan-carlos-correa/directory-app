@@ -15,6 +15,16 @@ class CompanyController {
       return next(e);
     }
   }
+
+  static async findCompaniesUser (req, res, next) {
+    try {
+      const { id } = req.params;
+      const companiesUser = await Company.find({ createdBy: id, isActive: true });
+      return res.status(200).send({ companiesUser });
+    } catch (e) {
+      return next(e);
+    }
+  }
 }
 
 module.exports = CompanyController;

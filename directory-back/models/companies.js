@@ -8,7 +8,6 @@ const CompaniesSchema = Schema({
   name: {
     type: String,
     trim: true,
-    unique: true,
     maxlength: [30, 'El nombre debe contener máximo 30 caracteres'],
     minlength: [3, 'El nombre debe contener mínimo 3 caracteres'],
     required: [true, 'El nombre es obligatorio']
@@ -18,6 +17,10 @@ const CompaniesSchema = Schema({
     ref: 'users',
     required: true,
   },
+  isActive: {
+    type: Boolean,
+    default: true,
+  }
 }, {
   timestamps: true,
 });

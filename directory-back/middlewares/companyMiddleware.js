@@ -20,6 +20,21 @@ const validateSaveRequest = (req, res, next) => {
   next();
 };
 
+const validateUserOwnerCompany = (req, res, next) => {
+  const { id } = req.params;
+  const { id: authId } = req.auth;
+
+  if (id !== authId) {
+    const err = new Error('Auth');
+    err.httpStatus = 401;
+    err.errors = { auth: 'No se permite consultar información de otros usuarios' };
+    return next(err);
+  }
+
+  next();
+};
+
 module.exports = {
   validateSaveRequest,
+  validateUserOwnerCompany,
 };
