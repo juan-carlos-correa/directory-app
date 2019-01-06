@@ -13,6 +13,12 @@ const config = {
     database: process.env.DB_DATABASE,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD
+  },
+  mail: {
+    service: process.env.MAIL_HOST,
+    user: process.env.MAIL_USER,
+    password: process.env.MAIL_PASSWORD,
+    fromDefault: process.env.MAIL_FROM_EMAIL,
   }
 };
 

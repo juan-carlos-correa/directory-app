@@ -4,6 +4,7 @@ const bcrypt = require('@libs/crypt');
 const string = require('@libs/string');
 const jwt = require('@libs/jwt');
 const config = require('@root/config');
+const Mailer = require('@libs/Mailer');
 
 const Schema = mongoose.Schema;
 
@@ -39,7 +40,7 @@ const UserSchema = Schema({
   },
   isAdmin: {
     type: Boolean,
-    default: 1,
+    default: false,
     min: [0, 'El tipo de usuario debe ser un valor válido'],
     max: [1, 'El tipo de usuario debe ser un valor válido']
   },
@@ -117,6 +118,28 @@ UserSchema.pre('save', function (next) {
 
   user.lastname = string.ucfirst(user.lastname);
   return next();
+});
+
+/**
+ * Send email verification account
+ */
+UserSchema.post('save', async function (doc, next) {
+  try {
+    const { isAdmin, email } = doc;
+    const mailer = new Mailer();
+
+    if (isAdmin) {
+      await mailer.sendEmail({
+        to: email,
+        subject: 'Bienvenido a Directory App - Valida tu cuenta',
+        html: '<h1>Test</h1>',
+      });
+
+      return next();
+    }
+  } catch (e) {
+    return next(e);
+  }
 });
 
 /**

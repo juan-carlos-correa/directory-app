@@ -15,6 +15,7 @@ class AuthController {
         firstname,
         lastname,
         email,
+        isAdmin: true,
       });
 
       await user.save();
