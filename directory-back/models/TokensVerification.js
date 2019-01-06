@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const TokenVerificationSchema = Schema({
-  user: {
+  temporalUser: {
     type: Schema.ObjectId,
-    ref: 'users',
+    ref: 'TemporalUsers',
     required: true,
   },
   token: {
@@ -16,4 +16,4 @@ const TokenVerificationSchema = Schema({
   timestamps: true,
 });
 
-module.exports = mongoose.model('tokenVerification', TokenVerificationSchema);
+module.exports = mongoose.model('TokensVerification', TokenVerificationSchema);

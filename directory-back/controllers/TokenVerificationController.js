@@ -1,6 +1,7 @@
 const request = require('request');
-const TokenVerification = require('@models/TokenVerification');
-const Users = require('@models/Users');
+const TokenVerification = require('@models/TokensVerification');
+const User = require('@models/Users');
+const TemporalUser = require('@models/TemporalUsers');
 const config = require('@root/config');
 
 class TokenVerificationController {
@@ -9,7 +10,7 @@ class TokenVerificationController {
 
     const tokenVerification = await TokenVerification
       .findOne({ token })
-      .populate('user')
+      .populate('temporalUser')
       .exec();
 
     if (!tokenVerification) {
@@ -20,11 +21,11 @@ class TokenVerificationController {
     }
 
     const { host } = config.app;
-    const { _id } = tokenVerification.user;
+    const { _id } = tokenVerification.temporalUser;
 
     request({
       method: 'PUT',
-      uri: `${host}/api/v1/users/${_id}/tokenVerifications`,
+      uri: `${host}/api/v1/temporalUsers/${_id}/tokenVerifications`,
     }, (error, response) => {
       if (error) {
         const err = new Error('updateVerificationUser');
@@ -45,17 +46,36 @@ class TokenVerificationController {
     try {
       const { userId } = req.params;
 
-      const user = await Users.findById(userId);
+      const temporalUser = await TemporalUser.findById(userId).select('+password');
 
-      if (!user) {
+      if (!temporalUser) {
         const err = new Error('user not found');
         err.httpStatus = 400;
         err.errors = { user: 'Usuario no encontrado' };
         return next(err);
       }
 
+      const {
+        firstname,
+        lastname,
+        email,
+        password,
+        isAdmin,
+      } = temporalUser;
+
+      const user = new User({
+        firstname,
+        lastname,
+        email,
+        password,
+        isAdmin,
+        isActive: true,
+      });
+
       user.isActive = true;
       await user.save();
+      await temporalUser.remove();
+      await TokenVerification.deleteMany({ email });
 
       return res.status(200).send({ success: true });
     } catch (e) {

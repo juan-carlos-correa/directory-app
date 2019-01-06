@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
-const pug = require('pug');
 const bcrypt = require('@libs/crypt');
-const string = require('@libs/string');
 const jwt = require('@libs/jwt');
 const config = require('@root/config');
-const Mailer = require('@libs/Mailer');
-const TokenVerification = require('@models/TokenVerification');
 
 const Schema = mongoose.Schema;
 
@@ -74,96 +70,6 @@ UserSchema.path('email').validate(function (email) {
  * Custom unique validator errors
  */
 UserSchema.plugin(uniqueValidator, { message: 'Error, el valor {PATH} debe ser único' });
-
-/**
- * Hash password
- */
-UserSchema.pre('save', async function (next) {
-  let user = this;
-
-  if (!user.isModified('password')) {
-    return next();
-  }
-
-  try {
-    let hash = await bcrypt.hashPassword(user.password);
-    user.password = hash;
-    return next();
-  } catch (err) {
-    next(err);
-  }
-});
-
-/**
- * Firstname uppercase
- */
-UserSchema.pre('save', function (next) {
-  let user = this;
-
-  if (!user.isModified('firstname')) {
-    return next();
-  }
-
-  user.firstname = string.ucfirst(user.firstname);
-  return next();
-});
-
-/**
- * Lastname uppercase
- */
-UserSchema.pre('save', function (next) {
-  let user = this;
-
-  if (!user.isModified('lastname')) {
-    return next();
-  }
-
-  user.lastname = string.ucfirst(user.lastname);
-  return next();
-});
-
-UserSchema.pre('save', function (next) {
-  this.wasNew = this.isNew;
-  next();
-});
-
-/**
- * Send email verification account
- */
-UserSchema.post('save', async function (doc, next) {
-  try {
-    if (!this.wasNew) {
-      return next();
-    }
-
-    const { _id, isAdmin, firstname, email } = doc;
-    const { host, rootPath } = config.app;
-
-    const token = await bcrypt.hashPassword(`${firstname}${email}${Date.now()}`);
-
-    const tokenVerification = new TokenVerification({ user: _id, token });
-    tokenVerification.save();
-
-    const mailer = new Mailer();
-
-    const html = pug.renderFile(`${rootPath}/resources/templates/verifyEmailTemplate.pug`, {
-      name: firstname,
-      url: `${host}/api/v1/tokenVerifications?token=${token}`,
-    });
-
-    if (isAdmin) {
-      mailer.sendEmail({
-        to: email,
-        subject: 'Bienvenido a Directory App - Valida tu cuenta',
-        html,
-      });
-
-      return next();
-    }
-  } catch (e) {
-    return next(e);
-  }
-});
 
 /**
  * Methods

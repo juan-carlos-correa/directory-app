@@ -3,6 +3,6 @@ const TokenVerificationController = require('@controllers/TokenVerificationContr
 const api = express.Router();
 
 api.get('/tokenVerifications', TokenVerificationController.find);
-api.put('/users/:userId/tokenVerifications', TokenVerificationController.updateVerificationUser);
+api.put('/temporalUsers/:userId/tokenVerifications', TokenVerificationController.updateVerificationUser);
 
 module.exports = api;

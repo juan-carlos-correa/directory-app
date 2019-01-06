@@ -1,4 +1,5 @@
 const User = require('@models/Users');
+const TemporalUser = require('@models/TemporalUsers');
 
 class AuthController {
   static async sigin (req, res, next) {
@@ -10,7 +11,16 @@ class AuthController {
         lastname,
       } = req.body;
 
-      const user = new User({
+      const user = await User.findOne({ email });
+
+      if (user) {
+        const err = new Error('User exists');
+        err.httpStatus = 400;
+        err.errors = { email: 'El email ya se encuentra registrado en el sistema' };
+        next(err);
+      }
+
+      const temporalUser = new TemporalUser({
         password,
         firstname,
         lastname,
@@ -18,7 +28,7 @@ class AuthController {
         isAdmin: true,
       });
 
-      await user.save();
+      await temporalUser.save();
       return res.status(201).send({ success: true });
     } catch (e) {
       e.httpStatus = 400;
@@ -30,10 +40,22 @@ class AuthController {
     try {
       const { email, password } = req.body;
 
+      const temporalUser = await TemporalUser.findOne({ email });
+
+      if (temporalUser) {
+        temporalUser.sendEmailVerification(temporalUser);
+        const err = new Error('temporalUser');
+        err.errors = {
+          login: 'Necesitas validar tu email. Reenviamos un nuevo correo para confirmar tu cuenta',
+        };
+        err.httpStatus = 400;
+        return next(err);
+      }
+
       const user = await User.findOne({ email }).select('+password');
 
       if (!user) {
-        const err = new Error('email');
+        const err = new Error('user');
         err.errors = { login: 'El usuario no fue encontrado' };
         err.httpStatus = 400;
         return next(err);
