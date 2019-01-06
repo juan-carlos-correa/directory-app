@@ -16,6 +16,7 @@ const CompaniesSchema = Schema({
   createdBy: {
     type: Schema.ObjectId,
     ref: 'users',
+    required: true,
   },
 }, {
   timestamps: true,
