@@ -122,24 +122,33 @@ UserSchema.pre('save', function (next) {
   return next();
 });
 
+UserSchema.pre('save', function (next) {
+  this.wasNew = this.isNew;
+  next();
+});
+
 /**
  * Send email verification account
  */
 UserSchema.post('save', async function (doc, next) {
   try {
+    if (!this.wasNew) {
+      return next();
+    }
+
     const { _id, isAdmin, firstname, email } = doc;
     const { host, rootPath } = config.app;
 
     const token = await bcrypt.hashPassword(`${firstname}${email}${Date.now()}`);
 
-    const tokenVerification = new TokenVerification({ userId: _id, token });
+    const tokenVerification = new TokenVerification({ user: _id, token });
     tokenVerification.save();
 
     const mailer = new Mailer();
 
     const html = pug.renderFile(`${rootPath}/resources/templates/verifyEmailTemplate.pug`, {
       name: firstname,
-      url: `${host}/tokenVerifications/?token=${token}`,
+      url: `${host}/api/v1/tokenVerifications?token=${token}`,
     });
 
     if (isAdmin) {

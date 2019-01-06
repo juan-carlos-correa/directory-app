@@ -5,6 +5,7 @@ const handleErrors = require('@middlewares/handleErrors');
 const authMiddleware = require('@middlewares/authMiddleware');
 const authRoutes = require('@routes/auth');
 const companiesRoutes = require('@routes/companies');
+const tokenVerificationsRoutes = require('@routes/tokenVerifications');
 
 const app = express();
 const version = '/api/v1';
@@ -13,9 +14,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 /*
- * Add routes
+ * Add routes without auth middleware
  */
 app.use(version, authRoutes);
+app.use(version, tokenVerificationsRoutes);
 
 /*
  * Group this routes with auth middlewares
