@@ -75,7 +75,7 @@ class TokenVerificationController {
       user.isActive = true;
       await user.save();
       await temporalUser.remove();
-      await TokenVerification.deleteMany({ email });
+      await TokenVerification.deleteMany({ temporalUser: temporalUser._id });
 
       return res.status(200).send({ success: true });
     } catch (e) {
