@@ -14,14 +14,14 @@ const UserSchema = Schema({
     trim: true,
     maxlength: [30, 'El nombre debe contener máximo 30 caracteres'],
     minlength: [3, 'El nombre debe contener mínimo 3 caracteres'],
-    required: [true, 'El nombre es obligatorio']
+    required: [true, 'El nombre es obligatorio'],
   },
   lastname: {
     type: String,
     trim: true,
     maxlength: [30, 'El apellido debe contener máximo 30 caracteres'],
     minlength: [3, 'El apellido debe contener mínimo 3 caracteres'],
-    required: [true, 'El apellido es obligatorio']
+    required: [true, 'El apellido es obligatorio'],
   },
   email: {
     type: String,
@@ -30,31 +30,31 @@ const UserSchema = Schema({
     lowercase: true,
     maxlength: [45, 'El email debe contener máximo 45 caracteres'],
     minlength: [4, 'El email debe contener mínimo 4 caracteres'],
-    required: [true, 'El email es obligatorio']
+    required: [true, 'El email es obligatorio'],
   },
   password: {
     type: String,
     select: false,
     maxlength: [75, 'La contraseña debe tener máximo 75 caracteres'],
-    minlength: [6, 'La contraseña debe tener por lo menos 6 caracteres']
+    minlength: [6, 'La contraseña debe tener por lo menos 6 caracteres'],
   },
   isAdmin: {
     type: Boolean,
     default: false,
     min: [0, 'El tipo de usuario debe ser un valor válido'],
-    max: [1, 'El tipo de usuario debe ser un valor válido']
+    max: [1, 'El tipo de usuario debe ser un valor válido'],
   },
   isActive: {
     type: Boolean,
-    default: true
+    default: false,
   },
   company: {
     type: Schema.ObjectId,
-    ref: 'companies'
+    ref: 'companies',
   }
 },
 {
-  timestamps: true
+  timestamps: true,
 });
 
 /**
