@@ -1,4 +1,4 @@
-const User = require('@models/users');
+const User = require('@models/Users');
 
 class AuthController {
   static async sigin (req, res, next) {

@@ -1,6 +1,6 @@
 const jwt = require('@libs/jwt');
 const config = require('@root/config');
-const User = require('@models/users');
+const User = require('@models/Users');
 
 const validateSigninRequest = (req, res, next) => {
   const {

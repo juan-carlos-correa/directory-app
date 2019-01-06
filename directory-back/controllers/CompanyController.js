@@ -1,4 +1,4 @@
-const Company = require('@models/companies');
+const Company = require('@models/Companies');
 
 class CompanyController {
   static async store (req, res, next) {
