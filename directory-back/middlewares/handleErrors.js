@@ -5,7 +5,7 @@ const hanldeErrors = (err, req, res, next) => {
 
   const keys = Object.keys(err.errors);
   const values = Object.values(err.errors);
-  const status = err.httpStatus;
+  const status = err.httpStatus || 500;
   const response = { errors: {} };
 
   for (let i = 0; i < keys.length; i += 1) {

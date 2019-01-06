@@ -17,9 +17,10 @@ class AuthController {
         email,
       });
 
-      const userStored = await user.save();
-      return res.status(201).send({ userStored });
+      await user.save();
+      return res.status(201).send({ success: true });
     } catch (e) {
+      e.httpStatus = 400;
       next(e);
     }
   }
