@@ -21,6 +21,7 @@ app.use(version, authRoutes);
  * Group this routes with auth middlewares
  */
 app.use(authMiddleware.isAuth);
+app.use(authMiddleware.isUserActive);
 
 app.use(version, companiesRoutes);
 

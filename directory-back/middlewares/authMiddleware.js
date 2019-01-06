@@ -1,5 +1,6 @@
 const jwt = require('@libs/jwt');
 const config = require('@root/config');
+const User = require('@models/users');
 
 const validateSigninRequest = (req, res, next) => {
   const {
@@ -114,8 +115,28 @@ const isAuth = async (req, res, next) => {
   }
 };
 
+const isUserActive = async (req, res, next) => {
+  try {
+    const { email } = req.auth;
+    const user = await User.findOne({ email, isActive: true });
+
+    if (!user) {
+      const err = new Error('Auth');
+      err.httpStatus = 401;
+      err.errors = { auth: 'El usuario no está activo en el sistema' };
+      return next(err);
+    }
+
+    next();
+  } catch (e) {
+    e.httpStatus = 401;
+    next(e);
+  }
+};
+
 module.exports = {
   validateSigninRequest,
   validateLoginRequest,
   isAuth,
+  isUserActive,
 };
