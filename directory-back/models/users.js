@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
+const pug = require('pug');
 const bcrypt = require('@libs/crypt');
 const string = require('@libs/string');
 const jwt = require('@libs/jwt');
@@ -127,6 +128,7 @@ UserSchema.pre('save', function (next) {
 UserSchema.post('save', async function (doc, next) {
   try {
     const { _id, isAdmin, firstname, email } = doc;
+    const { host, rootPath } = config.app;
 
     const token = await bcrypt.hashPassword(`${firstname}${email}${Date.now()}`);
 
@@ -135,11 +137,16 @@ UserSchema.post('save', async function (doc, next) {
 
     const mailer = new Mailer();
 
+    const html = pug.renderFile(`${rootPath}/resources/templates/verifyEmailTemplate.pug`, {
+      name: firstname,
+      url: `${host}/tokenVerifications/?token=${token}`,
+    });
+
     if (isAdmin) {
       mailer.sendEmail({
         to: email,
         subject: 'Bienvenido a Directory App - Valida tu cuenta',
-        html: `<h1>Test</h1> <p>token: ${token}</p>`,
+        html,
       });
 
       return next();
