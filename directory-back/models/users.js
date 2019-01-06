@@ -5,6 +5,7 @@ const string = require('@libs/string');
 const jwt = require('@libs/jwt');
 const config = require('@root/config');
 const Mailer = require('@libs/Mailer');
+const TokenVerification = require('@models/TokenVerification');
 
 const Schema = mongoose.Schema;
 
@@ -125,14 +126,20 @@ UserSchema.pre('save', function (next) {
  */
 UserSchema.post('save', async function (doc, next) {
   try {
-    const { isAdmin, email } = doc;
+    const { _id, isAdmin, firstname, email } = doc;
+
+    const token = await bcrypt.hashPassword(`${firstname}${email}${Date.now()}`);
+
+    const tokenVerification = new TokenVerification({ userId: _id, token });
+    tokenVerification.save();
+
     const mailer = new Mailer();
 
     if (isAdmin) {
-      await mailer.sendEmail({
+      mailer.sendEmail({
         to: email,
         subject: 'Bienvenido a Directory App - Valida tu cuenta',
-        html: '<h1>Test</h1>',
+        html: `<h1>Test</h1> <p>token: ${token}</p>`,
       });
 
       return next();
