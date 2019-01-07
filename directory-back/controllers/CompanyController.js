@@ -27,8 +27,8 @@ class CompanyController {
   static async findCompaniesUser (req, res, next) {
     try {
       const { id } = req.params;
-      const companieUser = await Company.findOne({ createdBy: id, isActive: true });
-      return res.status(200).send({ companieUser });
+      const companyUser = await Company.findOne({ createdBy: id, isActive: true });
+      return res.status(200).send({ companyUser });
     } catch (e) {
       return next(e);
     }
