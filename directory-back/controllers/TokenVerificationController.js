@@ -61,6 +61,7 @@ class TokenVerificationController {
         email,
         password,
         isAdmin,
+        company,
       } = temporalUser;
 
       const user = new User({
@@ -70,6 +71,7 @@ class TokenVerificationController {
         password,
         isAdmin,
         isActive: true,
+        company,
       });
 
       user.isActive = true;

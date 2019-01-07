@@ -1,4 +1,5 @@
 const Company = require('@models/Companies');
+const User = require('@models/Users');
 
 class CompanyController {
   static async store (req, res, next) {
@@ -8,6 +9,13 @@ class CompanyController {
 
       const company = new Company({ name, createdBy: id });
       const companyStored = await company.save();
+
+      const user = await User.findById(id);
+
+      if (!user.company) {
+        user.company = companyStored._id;
+        await user.save();
+      }
 
       return res.status(201).send({ companyStored });
     } catch (e) {
