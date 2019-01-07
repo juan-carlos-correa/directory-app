@@ -11,15 +11,6 @@ class AuthController {
         lastname,
       } = req.body;
 
-      const user = await User.findOne({ email });
-
-      if (user) {
-        const err = new Error('User exists');
-        err.httpStatus = 400;
-        err.errors = { email: 'El email ya se encuentra registrado en el sistema' };
-        next(err);
-      }
-
       const temporalUser = new TemporalUser({
         password,
         firstname,
