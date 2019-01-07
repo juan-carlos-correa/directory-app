@@ -44,6 +44,10 @@ const TemporalUsersSchema = Schema({
     min: [0, 'El tipo de usuario debe ser un valor válido'],
     max: [1, 'El tipo de usuario debe ser un valor válido'],
   },
+  company: {
+    type: Schema.ObjectId,
+    ref: 'companies',
+  },
 },
 {
   timestamps: true,
@@ -138,7 +142,7 @@ TemporalUsersSchema.methods.sendEmailVerification = function (doc) {
       const token = await bcrypt.hashPassword(`${firstname}${email}${Date.now()}`);
 
       const tokenVerification = new TokenVerification({ temporalUser: _id, token });
-      tokenVerification.save();
+      await tokenVerification.save();
 
       const mailer = new Mailer();
 
@@ -149,15 +153,15 @@ TemporalUsersSchema.methods.sendEmailVerification = function (doc) {
         url: `${host}/api/v1/tokenVerifications?token=${token}`,
       });
 
-      mailer.sendEmail({
+      const res = await mailer.sendEmail({
         to: email,
         subject: 'Bienvenido a Directory App - Valida tu cuenta',
         html,
       });
 
-      resolve(true);
+      return resolve(res);
     } catch (e) {
-      reject(e);
+      return reject(e);
     }
   });
 };

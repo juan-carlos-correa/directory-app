@@ -10,11 +10,14 @@ class TemporalUserController {
         lastname,
       } = req.body;
 
+      const { id } = req.params;
+
       const temporalUser = new TemporalUsers({
         email,
         password,
         firstname,
         lastname,
+        company: id,
       });
 
       await temporalUser.save();
