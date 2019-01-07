@@ -134,9 +134,28 @@ const isUserActive = async (req, res, next) => {
   }
 };
 
+const isAdmin = async (req, res, next) => {
+  try {
+    const { email } = req.auth;
+    const user = await User.findOne({ email, isActive: true });
+
+    if (!user.isAdmin) {
+      const err = new Error('Auth');
+      err.httpStatus = 401;
+      err.errors = { auth: 'Acceso permitido sólo para administradores' };
+      return next(err);
+    }
+
+    next();
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   validateSigninRequest,
   validateLoginRequest,
   isAuth,
   isUserActive,
+  isAdmin,
 };

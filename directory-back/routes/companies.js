@@ -2,16 +2,18 @@ const express = require('express');
 const companyMiddleware = require('@middlewares/companyMiddleware');
 const sharedMiddleware = require('@middlewares/sharedMiddleware');
 const CompanyController = require('@controllers/CompanyController');
+const authMiddleware = require('@middlewares/authMiddleware');
 
 const { validateSaveRequest, validateUserOwnerCompany } = companyMiddleware;
 const { checkObjectIdValues } = sharedMiddleware;
+const { isAdmin } = authMiddleware;
 
 const api = express.Router();
 
-api.post('/companies', validateSaveRequest, CompanyController.store);
+api.post('/companies', [isAdmin, validateSaveRequest], CompanyController.store);
 api.get(
   '/users/:id/companies',
-  [checkObjectIdValues, validateUserOwnerCompany],
+  [isAdmin, checkObjectIdValues, validateUserOwnerCompany],
   CompanyController.findCompaniesUser
 );
 
