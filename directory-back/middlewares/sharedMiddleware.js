@@ -32,4 +32,4 @@ const checkObjectIdValues = (req, res, next) => {
 
 module.exports = {
   checkObjectIdValues,
-}
+};

@@ -6,14 +6,11 @@ const AuthController = require('@controllers/AuthController');
 
 const api = express.Router();
 
-api.post(
-  '/auth/login',
-  [
-    authMiddleware.validateLoginRequest,
-    userMiddleware.isUnique,
-  ],
-  AuthController.login);
+const { validateLoginRequest, validateSigninRequest } = authMiddleware;
+const { isUnique } = userMiddleware;
 
-api.post('/auth/sigin', authMiddleware.validateSigninRequest, AuthController.sigin);
+api.post('/auth/login', validateLoginRequest, AuthController.login);
+
+api.post('/auth/sigin', [validateSigninRequest, isUnique], AuthController.sigin);
 
 module.exports = api;
