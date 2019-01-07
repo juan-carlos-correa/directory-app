@@ -10,7 +10,6 @@ const { validateLoginRequest, validateSigninRequest } = authMiddleware;
 const { isUnique } = userMiddleware;
 
 api.post('/auth/login', validateLoginRequest, AuthController.login);
-
 api.post('/auth/sigin', [validateSigninRequest, isUnique], AuthController.sigin);
 
 module.exports = api;
