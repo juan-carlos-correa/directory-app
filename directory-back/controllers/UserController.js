@@ -23,6 +23,22 @@ class UserController {
       next(e);
     }
   }
+
+  static async updatePassword (req, res, next) {
+    try {
+      const { id } = req.params;
+
+      const { password } = req.body;
+
+      const user = await Users.findById(id);
+      user.password = password;
+
+      await user.save();
+      res.status(200).send({ success: true });
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = UserController;

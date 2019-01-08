@@ -12,6 +12,8 @@ Basic users directory app
 - [] add GET endpoint for list all tags that belong to single companie: /companies/:id/tags (only admin)
 - [] add PUT endpoing for update single tag of company: PUT /companies/:id/tags/:tagId (only admin)
 - [] add DELETE endpoint for remove single tag of company: DELETE /companies/:id/tags/:tagId (only admin)
+- [] add config for use Mailgun
+- [] make Error class for abstract the throw errors actions
 
 # Todos frontend
 
