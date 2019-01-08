@@ -5,7 +5,8 @@ Basic users directory app
 
 - [] add tests (jasmine is recommended)
 - [x] add GET endpoint for list all users that belongs to single company: GET /companies/:id/users
-- [] add PUT endpoint for update user data: PUT /users/:id (admin role can update everythin user, no admin role only himself
+- [x] add PUT endpoint for update user data: PUT /users/:id (admin role can update everythin user, no admin role only himself)
+- [] add PATCH endopint for update user password: PATCH /users/:id (user can update only himself password)
 - [] add Tags model: company (objectId), name, color and description with timestamps
 - [] add POST endpoint for create new tag: POST /companies/:id/tags (only admin, name must be unique per company)
 - [] add GET endpoint for list all tags that belong to single companie: /companies/:id/tags (only admin)

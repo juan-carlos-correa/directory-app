@@ -72,6 +72,25 @@ UserSchema.path('email').validate(function (email) {
 UserSchema.plugin(uniqueValidator, { message: 'Error, el valor {PATH} debe ser único' });
 
 /**
+ * Hash password
+ */
+UserSchema.pre('save', async function (next) {
+  const user = this;
+
+  if (user.isNew || !user.isDirectModified('password')) {
+    return next();
+  }
+
+  try {
+    let hash = await bcrypt.hashPassword(user.password);
+    user.password = hash;
+    return next();
+  } catch (err) {
+    next(err);
+  }
+});
+
+/**
  * Methods
  */
 UserSchema.methods.comparePassword = function (candidatePassword) {

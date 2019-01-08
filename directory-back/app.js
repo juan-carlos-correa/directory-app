@@ -7,6 +7,7 @@ const authRoutes = require('@routes/auth');
 const companiesRoutes = require('@routes/companies');
 const tokenVerificationsRoutes = require('@routes/tokenVerifications');
 const temporalUsersRoutes = require('@routes/temporalUsers');
+const userRoutes = require('@routes/users');
 
 const app = express();
 const version = '/api/v1';
@@ -28,6 +29,7 @@ app.use(authMiddleware.isUserActive);
 
 app.use(version, companiesRoutes);
 app.use(version, temporalUsersRoutes);
+app.use(version, userRoutes);
 
 /*
  * Handle errors in the last position of middlewares
