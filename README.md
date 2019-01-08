@@ -4,7 +4,7 @@ Basic users directory app
 # Todos backend
 
 - [] add tests (jasmine is recommended)
-- [] add GET endpoint for list all users that belongs to single company: GET /companies/:id/users
+- [x] add GET endpoint for list all users that belongs to single company: GET /companies/:id/users
 - [] add PUT endpoint for update user data: PUT /users/:id (admin role can update everythin user, no admin role only himself
 - [] add Tags model: company (objectId), name, color and description with timestamps
 - [] add POST endpoint for create new tag: POST /companies/:id/tags (only admin, name must be unique per company)

@@ -16,5 +16,6 @@ api.get(
   [isAdmin, checkObjectIdValues, validateUserOwnerCompany],
   CompanyController.findCompaniesUser
 );
+api.get('/companies/:id/users', checkObjectIdValues, CompanyController.findUsersOfCompany);
 
 module.exports = api;

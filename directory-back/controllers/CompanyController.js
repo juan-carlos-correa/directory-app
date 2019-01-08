@@ -33,6 +33,17 @@ class CompanyController {
       return next(e);
     }
   }
+
+  static async findUsersOfCompany (req, res, next) {
+    try {
+      const { id } = req.params;
+      const usersCompany = await User.find({ company: id });
+
+      res.status(200).send({ usersCompany });
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = CompanyController;
