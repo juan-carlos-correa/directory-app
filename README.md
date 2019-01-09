@@ -12,6 +12,11 @@ Basic users directory app
 - [x] add GET endpoint for list all tags that belong to single company: /companies/:id/tags
 - [x] add PUT endpoing for update single tag of company: PUT /companies/:id/tags/:tagId
 - [x] add DELETE endpoint for remove single tag of company: DELETE /companies/:id/tags/:tagId
+- [] add UserTag model: userId, tagId, timestamps
+- [] add tags property to User model: array of objectId values
+- [] add POST endpoint for create new UserTag: POST /userTags
+- [] add DELETE endpoint for remove UserTag: DELETE /userTags/:id
+- [] add middleware for remove tag ids in users on remove tag (in Tags model)
 - [] add config for use Mailgun
 - [] make Error class for abstract the throw errors actions
 
