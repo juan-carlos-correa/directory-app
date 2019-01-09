@@ -11,7 +11,7 @@ Basic users directory app
 - [x] add POST endpoint for create new tag: POST /companies/:id/tags
 - [x] add GET endpoint for list all tags that belong to single company: /companies/:id/tags
 - [x] add PUT endpoing for update single tag of company: PUT /companies/:id/tags/:tagId
-- [] add DELETE endpoint for remove single tag of company: DELETE /companies/:id/tags/:tagId
+- [x] add DELETE endpoint for remove single tag of company: DELETE /companies/:id/tags/:tagId
 - [] add config for use Mailgun
 - [] make Error class for abstract the throw errors actions
 

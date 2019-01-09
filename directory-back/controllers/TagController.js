@@ -49,6 +49,26 @@ class TagController {
       next(e);
     }
   }
+
+  static async remove (req, res, next) {
+    try {
+      const { id, companyId } = req.params;
+
+      const tag = await Tag.findOne({ _id: id, company: companyId });
+
+      if (!tag) {
+        const err = new Error('updateTag');
+        err.httpStatus = 400;
+        err.errors = { tagUpdated: 'No se encontró la etiqueta' };
+        return next(err);
+      }
+
+      const tagRemoved = await tag.remove();
+      res.status(200).send({ tagRemoved });
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = TagController;
