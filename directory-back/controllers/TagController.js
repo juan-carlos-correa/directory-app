@@ -13,6 +13,17 @@ class TagController {
       next(e);
     }
   }
+
+  static async findCompanyTags (req, res, next) {
+    try {
+      const { companyId } = req.params;
+
+      const companyTags = await Tag.find({ company: companyId });
+      res.status(200).send({ companyTags });
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = TagController;

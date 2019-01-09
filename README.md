@@ -9,7 +9,7 @@ Basic users directory app
 - [x] add PATCH endopint for update user password: PATCH /users/:id (user can update only himself password)
 - [x] add Tags model: company (objectId), name, color and description with timestamps
 - [x] add POST endpoint for create new tag: POST /companies/:id/tags (only admin, name must be unique per company)
-- [] add GET endpoint for list all tags that belong to single companie: /companies/:id/tags (only admin)
+- [x] add GET endpoint for list all tags that belong to single company: /companies/:id/tags (only admin)
 - [] add PUT endpoing for update single tag of company: PUT /companies/:id/tags/:tagId (only admin)
 - [] add DELETE endpoint for remove single tag of company: DELETE /companies/:id/tags/:tagId (only admin)
 - [] add config for use Mailgun

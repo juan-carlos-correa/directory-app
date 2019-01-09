@@ -9,6 +9,7 @@ const { companyExists, checkObjectIdValues } = sharedMiddleware;
 
 const api = express.Router();
 
-api.post('/companies/:id/tags', [checkObjectIdValues, companyExists, validateSaveTagRequest], TagController.store);
+api.post('/companies/:companyId/tags', [checkObjectIdValues, companyExists, validateSaveTagRequest], TagController.store);
+api.get('/companies/:companyId/tags', [checkObjectIdValues, companyExists], TagController.findCompanyTags);
 
 module.exports = api;
