@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
+const Company = require('@models/Companies');
 
 const checkObjectIdValues = (req, res, next) => {
   const { params } = req;
 
   const values = Object.values(params);
   const keys = Object.keys(params);
+
   const errors = {};
 
   if (!keys.length) {
@@ -30,6 +32,26 @@ const checkObjectIdValues = (req, res, next) => {
   next();
 };
 
+const companyExists = async (req, res, next) => {
+  try {
+    const { companyId } = req.params;
+
+    const company = await Company.findById(companyId);
+
+    if (!company) {
+      const err = new Error('companyExists');
+      err.httpStatus = 400;
+      err.errors = { company: 'La compañía no existe' };
+      return next(err);
+    }
+
+    next();
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   checkObjectIdValues,
+  companyExists,
 };
