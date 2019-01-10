@@ -7,16 +7,16 @@ const api = express.Router();
 const {
   checkPermissions,
   validateUpdateRequest,
-  validateUpdatePasswordRequest,
+  validatePatchRequest,
 } = userMiddleware;
 
 const allowAdminUpdateUsers = true;
-const allowAdminUpdatePasswordUsers = false;
+const allowAdminPatchUsers = false;
 
 const checkPermUpdateUsers = checkPermissions(allowAdminUpdateUsers);
-const checkPermUpdatePasswUsers = checkPermissions(allowAdminUpdatePasswordUsers);
+const checkPermPatchUsers = checkPermissions(allowAdminPatchUsers);
 
 api.put('/users/:id', [checkPermUpdateUsers, validateUpdateRequest], UserController.update);
-api.patch('/users/:id', [checkPermUpdatePasswUsers, validateUpdatePasswordRequest], UserController.updatePassword);
+api.patch('/users/:id', [checkPermPatchUsers, validatePatchRequest], UserController.patch);
 
 module.exports = api;

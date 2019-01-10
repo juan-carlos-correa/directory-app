@@ -70,6 +70,28 @@ const validateUpdateRequest = (req, res, next) => {
   next();
 };
 
+const validatePatchRequest = (req, res, next) => {
+  try {
+    const { path, op } = req.body;
+
+    if (path === 'password') {
+      return validateUpdatePasswordRequest(req, res, next);
+    }
+
+    if (path === 'tags' && op === 'addTag') {
+      return validateAddTagRequest(req, res, next);
+    }
+
+    if (path === 'tags' && op === 'removeTag') {
+      return validateRemoveTagRequest(req, res, next);
+    }
+
+    return next();
+  } catch (e) {
+    next(e);
+  }
+};
+
 const validateUpdatePasswordRequest = (req, res, next) => {
   const {
     password,
@@ -107,7 +129,47 @@ const validateUpdatePasswordRequest = (req, res, next) => {
     return next(err);
   }
 
-  next();
+  return next();
+};
+
+const validateAddTagRequest = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { tagId } = req.body;
+
+    const user = await Users.findOne({ _id: id, tags: { $in: [tagId]} });
+
+    if (user) {
+      const err = new Error('validateTagRequest');
+      err.httpStatus = 400;
+      err.errors = { tagId: 'La etiqueta actualmente ya está asociada al usuario' };
+      return next(err);
+    }
+
+    return next();
+  } catch (e) {
+    return next(e);
+  }
+};
+
+const validateRemoveTagRequest = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { tagId } = req.body;
+
+    const user = await Users.findOne({ _id: id, tags: { $in: [tagId]} });
+
+    if (!user) {
+      const err = new Error('validateTagRequest');
+      err.httpStatus = 400;
+      err.errors = { tagId: 'La etiqueta actualmente no está asociada al usuario' };
+      return next(err);
+    }
+
+    return next();
+  } catch (e) {
+    return next(e);
+  }
 };
 
 const validateEmail = (email) => {
@@ -119,5 +181,5 @@ module.exports = {
   isUnique,
   checkPermissions,
   validateUpdateRequest,
-  validateUpdatePasswordRequest,
+  validatePatchRequest,
 };

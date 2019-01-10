@@ -49,7 +49,10 @@ const UserSchema = Schema({
   company: {
     type: Schema.ObjectId,
     ref: 'companies',
-  }
+  },
+  tags: [{
+    type: Schema.ObjectId, ref: 'Tags',
+  }],
 },
 {
   timestamps: true,
