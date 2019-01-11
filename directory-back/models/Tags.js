@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Users = require('@models/Users');
 
 const Schema = mongoose.Schema;
 
@@ -29,6 +30,26 @@ const TagsSchema = Schema({
   }
 }, {
   timestamps: true
+});
+
+TagsSchema.post('remove', async function (doc, next) {
+  try {
+    const { _id } = doc;
+    const usersWithTagRemoved = await Users.find({ tags: { $in: [_id] } });
+
+    if (!usersWithTagRemoved.length) {
+      return next();
+    }
+
+    for (let i = 0; i < usersWithTagRemoved.length; i += 1) {
+      usersWithTagRemoved[i].tags.pull(_id);
+      await usersWithTagRemoved[i].save();
+    }
+
+    next();
+  } catch (e) {
+    next(e);
+  }
 });
 
 module.exports = mongoose.model('Tags', TagsSchema);

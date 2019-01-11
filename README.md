@@ -14,7 +14,7 @@ Basic users directory app
 - [x] add DELETE endpoint for remove single tag of company: DELETE /companies/:id/tags/:tagId
 - [x] add tags property to User model: array of objectId values
 - [x] update users patch endpoint for support updates of differents fields
-- [] add middleware for remove tag ids in users on remove tag (in Tags model)
+- [x] add middleware for remove tag ids in users on remove tag (in Tags model)
 
 ## Nice to have
 - [] add config for use Mailgun
